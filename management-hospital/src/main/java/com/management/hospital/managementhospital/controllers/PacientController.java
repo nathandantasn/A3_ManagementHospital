@@ -31,19 +31,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/pacient")
+@RequestMapping("/api/pacient")
 public class PacientController {
-    
+
     final PacientService pacientService;
 
     public PacientController(PacientService pacientService) {
         this.pacientService = pacientService;
     }
-    
-    @PostMapping
-    public ResponseEntity<Object> savePacient(@RequestBody @Valid PacientDto pacientDto){
 
-        if (pacientService.existsByCPF(pacientDto.getCPF())){
+    @PostMapping
+    public ResponseEntity<Object> savePacient(@RequestBody @Valid PacientDto pacientDto) {
+
+        if (pacientService.existsByCPF(pacientDto.getCPF())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: CPF is already in use");
         }
 
@@ -54,23 +54,25 @@ public class PacientController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<PacientModel>> getAllPacients(@PageableDefault(page=0, size = 3, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+    public ResponseEntity<Page<PacientModel>> getAllPacients(
+            @PageableDefault(page = 0, size = 3, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(pacientService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getOnePacient(@PathVariable(value = "id") UUID id){
+    public ResponseEntity<Object> getOnePacient(@PathVariable(value = "id") UUID id) {
         Optional<PacientModel> pacientModelOptional = pacientService.findById(id);
-        if(!pacientModelOptional.isPresent()){
+        if (!pacientModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pacient not found");
         }
         return ResponseEntity.status(HttpStatus.OK).body(pacientModelOptional.get());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updatePacient(@PathVariable(value = "id") UUID id, @RequestBody @Valid PacientDto pacientDto){
+    public ResponseEntity<Object> updatePacient(@PathVariable(value = "id") UUID id,
+            @RequestBody @Valid PacientDto pacientDto) {
         Optional<PacientModel> pacientModelOptional = pacientService.findById(id);
-        if(!pacientModelOptional.isPresent()){
+        if (!pacientModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pacient not found");
         }
         var pacientModel = new PacientModel();
@@ -82,15 +84,14 @@ public class PacientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletePacient(@PathVariable (value = "id") UUID id){
+    public ResponseEntity<Object> deletePacient(@PathVariable(value = "id") UUID id) {
         Optional<PacientModel> pacientModelOptional = pacientService.findById(id);
-        if(!pacientModelOptional.isPresent()){
+        if (!pacientModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pacient not found");
         }
 
         pacientService.delete(pacientModelOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body("Pacient deleted successfully");
     }
-
 
 }

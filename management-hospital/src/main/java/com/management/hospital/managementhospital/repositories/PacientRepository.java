@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PacientRepository extends JpaRepository<PacientModel, UUID> {
 
-public boolean existsByCPF(String string);
-    
+    public boolean existsByCPF(String string);
+
 }

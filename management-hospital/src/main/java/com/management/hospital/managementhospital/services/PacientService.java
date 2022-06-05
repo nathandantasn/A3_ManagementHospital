@@ -42,6 +42,5 @@ public class PacientService {
     public void delete(PacientModel pacientModel) {
         pacientRepository.delete(pacientModel);
     }
-    
 
 }
