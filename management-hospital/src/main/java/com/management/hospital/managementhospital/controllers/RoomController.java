@@ -15,12 +15,13 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.management.hospital.managementhospital.dtos.RoomDto;
@@ -78,4 +79,29 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.OK).body(roomModelOptional.get());
     }
 
+    @PutMapping("/id/{id}")
+    public ResponseEntity<Object> updateRoom(@PathVariable(value = "id") UUID id, @RequestBody @Valid RoomDto roomDto) {
+        Optional<RoomModel> roomModelOptional = roomService.findById(id);
+        if (!roomModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room not found");
+        }
+        var roomModel = new RoomModel();
+        BeanUtils.copyProperties(roomDto, roomModel);
+        roomModel.setId(roomModelOptional.get().getId());
+        roomModel.setDepartment(roomModelOptional.get().getDepartment());
+        roomModel.setRegistrationDate(roomModelOptional.get().getRegistrationDate());
+        return ResponseEntity.status(HttpStatus.OK).body(roomService.save(roomModel));
+    }
+
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<Object> deleteRoom(@PathVariable(value = "id") UUID id) {
+        Optional<RoomModel> roomModelOptional = roomService.findById(id);
+        if (!roomModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room not found");
+        }
+        roomService.delete(roomModelOptional.get());
+        return ResponseEntity.status(HttpStatus.OK).body("Room deleted successfully");
+    }
+
 }
+

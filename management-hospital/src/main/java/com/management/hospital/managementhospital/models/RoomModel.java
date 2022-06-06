@@ -4,88 +4,104 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_room")
 public class RoomModel implements Serializable {
 
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-@Id
-@GeneratedValue(strategy = GenerationType.AUTO)
-private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
-@Column(nullable = false, unique = true)
-private int roomNumber;
+    @Column(nullable = false, unique = true)
+    private int roomNumber;
 
-@Column(nullable = true, length = 256)
-private String description;
+    @Column(nullable = true, length = 256)
+    private String description;
 
-@Column(nullable = false, length = 1)
-private String department;
+    @Column(nullable = false, length = 1)
+    private String department;
 
-@Column(nullable = false)
-private boolean allocated;
+    @Column(nullable = false)
+    private boolean allocated;
 
-@Column(nullable = false)
-private LocalDateTime registrationDate;
+    @Column(nullable = false)
+    private LocalDateTime registrationDate;
 
-public static long getSerialversionuid() {
-    return serialVersionUID;
-}
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "room_pacient")
+    private PacientModel pacient;
 
-public UUID getId() {
-    return id;
-}
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
-public void setId(UUID id) {
-    this.id = id;
-}
+    public UUID getId() {
+        return id;
+    }
 
-public int getRoomNumber() {
-    return roomNumber;
-}
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-public void setRoomNumber(int roomNumber) {
-    this.roomNumber = roomNumber;
-}
+    public int getRoomNumber() {
+        return roomNumber;
+    }
 
-public String getDescription() {
-    return description;
-}
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
+    }
 
-public void setDescription(String description) {
-    this.description = description;
-}
+    public String getDescription() {
+        return description;
+    }
 
-public String getDepartment() {
-    return department;
-}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-public void setDepartment(String department) {
-    this.department = department;
-}
+    public String getDepartment() {
+        return department;
+    }
 
-public LocalDateTime getRegistrationDate() {
-    return registrationDate;
-}
+    public void setDepartment(String department) {
+        this.department = department;
+    }
 
-public void setRegistrationDate(LocalDateTime registrationDate) {
-    this.registrationDate = registrationDate;
-}
+    public LocalDateTime getRegistrationDate() {
+        return registrationDate;
+    }
 
-public boolean isAllocated() {
-    return allocated;
-}
+    public void setRegistrationDate(LocalDateTime registrationDate) {
+        this.registrationDate = registrationDate;
+    }
 
-public void setAllocated(boolean allocated) {
-    this.allocated = allocated;
-}
+    public boolean isAllocated() {
+        return allocated;
+    }
+
+    public void setAllocated(boolean allocated) {
+        this.allocated = allocated;
+    }
+
+    public PacientModel getPacientModel() {
+        return pacient;
+    }
+
+    public void setPacientModel(PacientModel pacientModel) {
+        this.pacient = pacientModel;
+    }
 
 }

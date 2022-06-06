@@ -2,19 +2,23 @@ package com.management.hospital.managementhospital.models;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_pacient")
 public class PacientModel implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -34,7 +38,10 @@ public class PacientModel implements Serializable {
     private String CPF;
 
     @Column(nullable = false)
-	private LocalDateTime registrationDate;
+    private LocalDateTime registrationDate;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pacient")
+    private RoomModel rooms;
 
     public static long getSerialversionuid() {
         return serialVersionUID;
@@ -88,5 +95,12 @@ public class PacientModel implements Serializable {
         this.registrationDate = registrationDate;
     }
 
-    
+    public RoomModel getRoomModel() {
+        return rooms;
+    }
+
+    public void setRoomModel(RoomModel roomModel) {
+        this.rooms = roomModel;
+    }
+
 }

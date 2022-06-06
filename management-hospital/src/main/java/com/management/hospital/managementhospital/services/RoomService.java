@@ -42,4 +42,8 @@ public class RoomService {
         return roomRepository.findByRoomNumber(roomNumber);
     }
 
+    public void delete(RoomModel roomModel) {
+        roomRepository.delete(roomModel);
+    }
+
 }
