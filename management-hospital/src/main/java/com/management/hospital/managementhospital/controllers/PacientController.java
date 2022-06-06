@@ -3,19 +3,14 @@ package com.management.hospital.managementhospital.controllers;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.validation.Valid;
 
-import com.management.hospital.managementhospital.dtos.PacientDto;
-import com.management.hospital.managementhospital.models.PacientModel;
-import com.management.hospital.managementhospital.services.PacientService;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Pageable;
-
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +24,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.management.hospital.managementhospital.dtos.PacientDto;
+import com.management.hospital.managementhospital.models.PacientModel;
+import com.management.hospital.managementhospital.services.PacientService;
+
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api/pacient")
 public class PacientController {
 
+    @Autowired
     final PacientService pacientService;
 
     public PacientController(PacientService pacientService) {
@@ -59,8 +59,8 @@ public class PacientController {
         return ResponseEntity.status(HttpStatus.OK).body(pacientService.findAll(pageable));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getOnePacient(@PathVariable(value = "id") UUID id) {
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Object> getOnePacient(@PathVariable(value = "id") Long id) {
         Optional<PacientModel> pacientModelOptional = pacientService.findById(id);
         if (!pacientModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pacient not found");
@@ -68,8 +68,8 @@ public class PacientController {
         return ResponseEntity.status(HttpStatus.OK).body(pacientModelOptional.get());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updatePacient(@PathVariable(value = "id") UUID id,
+    @PutMapping("/id/{id}")
+    public ResponseEntity<Object> updatePacient(@PathVariable(value = "id") Long id,
             @RequestBody @Valid PacientDto pacientDto) {
         Optional<PacientModel> pacientModelOptional = pacientService.findById(id);
         if (!pacientModelOptional.isPresent()) {
@@ -83,8 +83,8 @@ public class PacientController {
         return ResponseEntity.status(HttpStatus.OK).body(pacientService.save(pacientModel));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletePacient(@PathVariable(value = "id") UUID id) {
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<Object> deletePacient(@PathVariable(value = "id") Long id) {
         Optional<PacientModel> pacientModelOptional = pacientService.findById(id);
         if (!pacientModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pacient not found");

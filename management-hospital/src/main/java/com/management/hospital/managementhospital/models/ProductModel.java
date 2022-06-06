@@ -1,6 +1,5 @@
 package com.management.hospital.managementhospital.models;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -11,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_pacient")
-public class PacientModel implements Serializable {
+@Table(name = "tb_product")
+public class ProductModel {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,15 +22,24 @@ public class PacientModel implements Serializable {
     @Column(nullable = false, length = 130)
     private String name;
 
+    @Column(nullable = false, length = 256)
+    private String description;
+
+    @Column(nullable = false, length = 50)
+    private String brand;
+
+    @Column(nullable = false)
+    private double price;
+
     @Column(nullable = false, length = 10)
     private String date;
 
-    @Column(nullable = false, length = 3)
-    private Integer age;
-
     @Column(nullable = false, length = 11)
-    private String CPF;
+    private String lote;
 
+    @Column(nullable = false)
+    private int skuQuantity;
+    
     @Column(nullable = false)
     private LocalDateTime registrationDate;
 
@@ -55,6 +63,30 @@ public class PacientModel implements Serializable {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public String getDate() {
         return date;
     }
@@ -63,20 +95,20 @@ public class PacientModel implements Serializable {
         this.date = date;
     }
 
-    public Integer getAge() {
-        return age;
+    public String getLote() {
+        return lote;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setLote(String lote) {
+        this.lote = lote;
     }
 
-    public String getCPF() {
-        return CPF;
+    public int getSkuQuantity() {
+        return skuQuantity;
     }
 
-    public void setCPF(String cPF) {
-        CPF = cPF;
+    public void setSkuQuantity(int skuQuantity) {
+        this.skuQuantity = skuQuantity;
     }
 
     public LocalDateTime getRegistrationDate() {
@@ -86,5 +118,5 @@ public class PacientModel implements Serializable {
     public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
-
+    
 }

@@ -1,7 +1,6 @@
 package com.management.hospital.managementhospital.services;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -34,7 +33,7 @@ public class RoomService {
         return roomRepository.findAll(pageable);
     }
 
-    public Optional<RoomModel> findById(UUID id) {
+    public Optional<RoomModel> findById(Long id) {
         return roomRepository.findById(id);
     }
 

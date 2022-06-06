@@ -3,14 +3,14 @@ package com.management.hospital.managementhospital.controllers;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +33,7 @@ import com.management.hospital.managementhospital.services.RoomService;
 @RequestMapping("/api/room")
 public class RoomController {
 
+    @Autowired
     final RoomService roomService;
 
     public RoomController(RoomService roomService) {
@@ -59,7 +60,7 @@ public class RoomController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<Object> getOneRoom(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity<Object> getOneRoom(@PathVariable(value = "id") Long id) {
         Optional<RoomModel> roomModelOptional = roomService.findById(id);
 
         if (!roomModelOptional.isPresent()) {
@@ -80,7 +81,7 @@ public class RoomController {
     }
 
     @PutMapping("/id/{id}")
-    public ResponseEntity<Object> updateRoom(@PathVariable(value = "id") UUID id, @RequestBody @Valid RoomDto roomDto) {
+    public ResponseEntity<Object> updateRoom(@PathVariable(value = "id") Long id, @RequestBody @Valid RoomDto roomDto) {
         Optional<RoomModel> roomModelOptional = roomService.findById(id);
         if (!roomModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room not found");
@@ -88,13 +89,13 @@ public class RoomController {
         var roomModel = new RoomModel();
         BeanUtils.copyProperties(roomDto, roomModel);
         roomModel.setId(roomModelOptional.get().getId());
-        roomModel.setDepartment(roomModelOptional.get().getDepartment());
+        roomModel.setRoomNumber(roomModelOptional.get().getRoomNumber());
         roomModel.setRegistrationDate(roomModelOptional.get().getRegistrationDate());
         return ResponseEntity.status(HttpStatus.OK).body(roomService.save(roomModel));
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<Object> deleteRoom(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity<Object> deleteRoom(@PathVariable(value = "id") Long id) {
         Optional<RoomModel> roomModelOptional = roomService.findById(id);
         if (!roomModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room not found");
@@ -104,4 +105,3 @@ public class RoomController {
     }
 
 }
-

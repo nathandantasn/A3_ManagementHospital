@@ -2,17 +2,12 @@ package com.management.hospital.managementhospital.models;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,8 +17,8 @@ public class RoomModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private int roomNumber;
@@ -40,19 +35,15 @@ public class RoomModel implements Serializable {
     @Column(nullable = false)
     private LocalDateTime registrationDate;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_pacient")
-    private PacientModel pacient;
-
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -95,13 +86,5 @@ public class RoomModel implements Serializable {
     public void setAllocated(boolean allocated) {
         this.allocated = allocated;
     }
-
-    public PacientModel getPacientModel() {
-        return pacient;
-    }
-
-    public void setPacientModel(PacientModel pacientModel) {
-        this.pacient = pacientModel;
-    }
-
+    
 }
