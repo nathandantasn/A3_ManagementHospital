@@ -16,7 +16,7 @@ public class ProductModel {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 130)
@@ -42,6 +42,10 @@ public class ProductModel {
     
     @Column(nullable = false)
     private LocalDateTime registrationDate;
+
+    // ligação entre tabela product e pacient não funcionou
+    /*@ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    private List<PacientModel> pacients;*/
 
     public static long getSerialversionuid() {
         return serialVersionUID;
@@ -118,5 +122,13 @@ public class ProductModel {
     public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
+
+    /*public List<PacientModel> getPacient() {
+        return pacients;
+    }
+
+    public void setPacient(List<PacientModel> pacient) {
+        this.pacients = pacient;
+    }*/
     
 }

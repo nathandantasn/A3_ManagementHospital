@@ -35,6 +35,12 @@ public class PacientModel implements Serializable {
     @Column(nullable = false)
     private LocalDateTime registrationDate;
 
+    // ligação entre tabela product e pacient não funcionou
+    /*@ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "product_pacient", joinColumns = @JoinColumn(name = "pacient_id"), 
+    inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<ProductModel> products; */
+
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
@@ -86,5 +92,13 @@ public class PacientModel implements Serializable {
     public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
+
+    /*public List<ProductModel> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductModel> products) {
+        this.products = products;
+    }*/
 
 }
